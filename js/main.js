@@ -1,30 +1,24 @@
 // Navbar
 const menuOpen = document.getElementById('menuOpen');
-const menuClose = document.getElementById('menuClose');
 
-const showNavbar = () => {
+menuOpen.addEventListener('click', () => {
   const navbar = document.querySelector('.navbar__container');
+  navbar.classList.toggle('showNavbar');
 
   if (window.matchMedia('(max-width: 768px)').matches) {
-    menuOpen.style.display = 'none';
-    menuClose.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    navbar.style.left = '0';
+    if (navbar.classList.contains('showNavbar')) {
+      menuOpen.classList.add('fa-times');
+      menuOpen.classList.remove('fa-bars');
+      navbar.style.left = '0';
+      document.body.style.overflow = 'hidden';
+    } else {
+      menuOpen.classList.remove('fa-times');
+      menuOpen.classList.add('fa-bars');
+      document.body.style.overflow = 'scroll';
+      navbar.style.left = '-100%';
+    }
   }
-};
-menuOpen.addEventListener('click', showNavbar);
-
-const hiddeNavbar = () => {
-  const navbar = document.querySelector('.navbar__container');
-
-  if (window.matchMedia('(max-width: 768px)').matches) {
-    menuClose.style.display = 'none';
-    menuOpen.style.display = 'block';
-    document.body.style.overflow = 'scroll';
-    navbar.style.left = '-100%';
-  }
-};
-menuClose.addEventListener('click', hiddeNavbar);
+});
 
 // Main Program
 const programs = [
@@ -55,6 +49,49 @@ const programs = [
   },
 ];
 
+const speakers = [
+  {
+    image: './images/speaker_01.png',
+    name: 'Yochai Benkler',
+    profession: 'Berkman Professor of Entreprenurial Legal Studies at Harvard Law School',
+    description: 'Benkler studies commons-based peer production, and published his seminal bool The Wealth of Networks in 2006.',
+  },
+  {
+    image: './images/speaker_02.png',
+    name: 'Kilnam Chon',
+    profession: '',
+    description: "Kilnam Chon helped bring the Internet to Asia and is an outspoken advocate for the open web and digital commons. in 2012, he was inducted into the inaugural class of the Internet Society's(ISOC) Internet Hall of Fame",
+  },
+  {
+    image: './images/speaker_03.png',
+    name: 'SohYeong Noh',
+    profession: 'Director of Art Centre Nabi and a board member of CC Korea',
+    description: 'As the main venue for new media art production in Korea, Nabi promotes cross-diciplinary collaboration and understanding among science technology, humanities, and the arts.',
+    class: 'hidde',
+  },
+  {
+    image: './images/speaker_04.png',
+    name: 'Julia Leda',
+    profession: 'President of Young Pirates of Europe',
+    description: "European ingetration, political democracy and participation of youth through online as her major condern, Reda's report outlining potential chancges EU copyright law was approved by the Parlament in July.",
+    class: 'hidde',
+  },
+  {
+    image: './images/speaker_05.png',
+    name: 'Lila Tretikov',
+    profession: 'Executive Director of the Wikimedia Foundation',
+    description: 'Lila Tretikov is the Exectuvie Director of the Wikimedia Foundation, the nonprofit organization that operates Wikipedia. Wikipedia is freely avaiable un 290 languages and used by nearly half a billion people around the world every month',
+    class: 'hidde',
+  },
+  {
+    image: './images/speaker_06.png',
+    name: 'Ryan Merkley',
+    profession: 'CEO of Creative Commons, ex COO of the Mozilla Foundation',
+    description: 'Ryan had been leading open-source projects as the Mozilla Foundation such as the open source movement.',
+    class: 'hidde',
+  },
+];
+
 const printProgram = () => {
   const programSection = document.getElementById('programSection');
   programs.forEach((program) => {
@@ -74,57 +111,13 @@ const printProgram = () => {
         `;
     programSection.appendChild(ul);
   });
-};
-printProgram();
 
-// Featured Speakers
-const speakerButton = document.getElementById('speakersButton');
-
-const speakers = [
-  {
-    image: './images/speaker_01.png',
-    name: 'Yochai Benkler',
-    profession: 'Berkman Professor of Entreprenurial Legal Studies at Harvard Law School',
-    description: 'Benkler studies commons-based peer production, and published his seminal bool The Wealth of Networks in 2006.',
-  },
-  {
-    image: './images/speaker_02.png',
-    name: 'Kilnam Chon',
-    profession: '',
-    description: "Kilnam Chon helped bring the Internet to Asia and is an outspoken advocate for the open web and digital commons. in 2012, he was inducted into the inaugural class of the Internet Society's(ISOC) Internet Hall of Fame",
-  },
-  {
-    image: './images/speaker_03.png',
-    name: 'SohYeong Noh',
-    profession: 'Director of Art Centre Nabi and a board member of CC Korea',
-    description: 'As the main venue for new media art production in Korea, Nabi promotes cross-diciplinary collaboration and understanding among science technology, humanities, and the arts.',
-  },
-  {
-    image: './images/speaker_04.png',
-    name: 'Julia Leda',
-    profession: 'President of Young Pirates of Europe',
-    description: "European ingetration, political democracy and participation of youth through online as her major condern, Reda's report outlining potential chancges EU copyright law was approved by the Parlament in July.",
-  },
-  {
-    image: './images/speaker_05.png',
-    name: 'Lila Tretikov',
-    profession: 'Executive Director of the Wikimedia Foundation',
-    description: 'Lila Tretikov is the Exectuvie Director of the Wikimedia Foundation, the nonprofit organization that operates Wikipedia. Wikipedia is freely avaiable un 290 languages and used by nearly half a billion people around the world every month',
-  },
-  {
-    image: './images/speaker_06.png',
-    name: 'Ryan Merkley',
-    profession: 'CEO of Creative Commons, ex COO of the Mozilla Foundation',
-    description: 'Ryan had been leading open-source projects as the Mozilla Foundation such as the open source movement.',
-  },
-];
-
-const printSpeakers = () => {
   const speakersSection = document.getElementById('featuredSpeakers');
   speakers.forEach((speaker) => {
-    const ul = document.createElement('ul');
-    ul.classList.add('speakers__list__container');
-    ul.innerHTML = `
+    const ulSpeakers = document.createElement('ul');
+    ulSpeakers.classList.add('speakers__list__container');
+    ulSpeakers.classList.add(`${speaker.class}`);
+    ulSpeakers.innerHTML = `
         <li class="featured__speakers__item">
             <div class="speaker__description__container">
                 <figure>
@@ -139,49 +132,40 @@ const printSpeakers = () => {
             </div>
         </li>
         `;
-    speakersSection.appendChild(ul);
+    speakersSection.appendChild(ulSpeakers);
   });
 };
-printSpeakers();
+
+// Featured Speakers
+const speakerButton = document.getElementById('speakersButton');
 
 const showMore = () => {
   if (window.matchMedia('(max-width: 767px)').matches) {
-    const element1 = document.querySelector('.speakers__list__container:nth-child(3)');
-    const element2 = document.querySelector('.speakers__list__container:nth-child(4)');
-    const element3 = document.querySelector('.speakers__list__container:nth-child(5)');
-    const element4 = document.querySelector('.speakers__list__container:nth-child(6)');
-
-    const elements = [
-      element1,
-      element2,
-      element3,
-      element4,
-    ];
-
-    elements.forEach((e) => {
-      e.style.display = 'none';
+    const elements = document.querySelectorAll('.hidde');
+    elements.forEach((el) => {
+      el.style.display = 'none';
     });
 
     speakerButton.addEventListener('click', () => {
       speakerButton.classList.toggle('show');
-      if (speakerButton.classList.contains('show')) {
-        elements.forEach((e) => {
-          e.style.display = 'block';
-        });
-        speakerButton.innerHTML = `
-        LESS
-        <i class="fa-solid fa-chevron-up"></i>
-        `;
-      } else {
-        elements.forEach((e) => {
-          e.style.display = 'none';
-        });
-        speakerButton.innerHTML = `
-        MORE
-        <i class="fa-solid fa-chevron-down"></i>
-        `;
-      }
+      elements.forEach((el) => {
+        if (speakerButton.classList.contains('show')) {
+          el.style.display = 'block';
+          speakerButton.innerHTML = `
+          LESS
+          <i class="fa-solid fa-chevron-up"></i>
+          `;
+        } else {
+          el.style.display = 'none';
+          speakerButton.innerHTML = `
+          MORE
+          <i class="fa-solid fa-chevron-down"></i>
+          `;
+        }
+      });
     });
   }
 };
+
+printProgram();
 showMore();
